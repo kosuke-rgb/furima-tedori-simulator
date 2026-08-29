@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>フリマ手取りシミュレーター | 手数料+送料をまとめて計算</title>
+<meta name="description" content="メルカリ・ラクマ・Yahoo!フリマ（旧PayPayフリマ）の販売手数料と、サイズ・重さから自動で選んだ最安の発送方法をまとめて計算。「いくら手元に残るか」だけでなく「いくらで出品すれば目標の手取りになるか」も逆算できます。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://webtools-labs.com/furima-tedori-simulator/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2370765779014113" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NKK5TXCQEK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NKK5TXCQEK');
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f766e'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif'%3E%EF%BF%A5%3C/text%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="フリマ手取りシミュレーター | 手数料+送料をまとめて計算">
+<meta property="og:description" content="メルカリ・ラクマ・Yahoo!フリマの手数料と最安送料をまとめて計算。目標の手取り額からいくらで出品すべきかも逆算できます。">
+<meta property="og:url" content="https://webtools-labs.com/furima-tedori-simulator/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="フリマ手取りシミュレーター">
+<meta name="twitter:description" content="手数料+送料込みで「いくら残るか」「いくらで出すべきか」が一度に分かる無料ツール。">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "フリマ手取りシミュレーター",
+  "url": "https://webtools-labs.com/furima-tedori-simulator/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "description": "メルカリ・ラクマ・Yahoo!フリマの販売手数料と、サイズ・重さから自動選択した最安の発送方法をまとめて計算できる無料ツール。目標の手取り額から必要な出品価格も逆算できます。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "inLanguage": "ja"
+}
+</script>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface-2: #f7f7f7;
+  --ink: #1a1a1a;
+  --muted: #767676;
+  --line: #e3e3e3;
+  --accent: #0f766e;
+  --best-bg: #f0f8f6;
+  --warn-bg: #fff7ed;
+  --warn-ink: #9a5b00;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: 720px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+header.masthead { margin-bottom: 1.5rem; }
+h1 {
+  font-weight: 700;
+  font-size: clamp(1.4rem, 4.5vw, 1.7rem);
+  margin: 0 0 0.7rem;
+  letter-spacing: 0.01em;
+}
+p.lede { color: var(--muted); margin: 0; max-width: 60ch; font-size: 0.95rem; }
+.updated-note { display: block; margin-top: 0.9rem; font-size: 0.78rem; color: var(--muted); }
+
+.notice-box {
+  background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px;
+  padding: 0.9rem 1.1rem; font-size: 0.85rem; margin-bottom: 2rem;
+}
+
+section { margin-bottom: 2.5rem; }
+h2 { font-size: 1.05rem; font-weight: 700; margin: 0 0 1rem; }
+
+.mode-row { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+.mode-row button {
+  flex: 1; font-family: inherit; font-size: 0.88rem; font-weight: 600; padding: 0.65rem;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--muted); cursor: pointer;
+}
+.mode-row button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--best-bg); }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+.field { flex: 1; min-width: 140px; }
+.field label { display: block; font-size: 0.83rem; color: var(--muted); margin-bottom: 0.35rem; }
+.field input[type="number"], .field select {
+  width: 100%; font-variant-numeric: tabular-nums; font-size: 1.05rem; font-family: inherit;
+  padding: 0.55rem 0.7rem; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--bg); color: var(--ink);
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+.field-hint { font-size: 0.76rem; color: var(--muted); margin-top: 0.3rem; }
+
+.shipping-pick {
+  font-size: 0.86rem; color: var(--muted); background: var(--surface-2); border-radius: 6px;
+  padding: 0.7rem 0.9rem; margin-bottom: 1.25rem;
+}
+.shipping-pick strong { color: var(--ink); }
+.shipping-pick.warn { background: var(--warn-bg); color: var(--warn-ink); }
+
+table.compare { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+table.compare th, table.compare td {
+  padding: 0.6rem 0.5rem; text-align: right; border-bottom: 1px solid var(--line); vertical-align: top;
+}
+table.compare th:first-child, table.compare td:first-child { text-align: left; }
+table.compare thead th { color: var(--muted); font-weight: 500; font-size: 0.78rem; }
+table.compare td.num, table.compare th.num { font-variant-numeric: tabular-nums; }
+tr.best { background: var(--best-bg); }
+tr.best td:first-child { font-weight: 700; }
+.best-tag { display: inline-block; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); padding: 0.05rem 0.4rem; border-radius: 4px; margin-left: 0.4rem; font-weight: 500; }
+
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+
+.contact-box textarea {
+  width: 100%; min-height: 6rem; font-family: inherit; font-size: 0.92rem;
+  padding: 0.7rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);
+  resize: vertical; margin-bottom: 0.6rem;
+}
+.contact-box input[type="email"] {
+  width: 100%; font-family: inherit; font-size: 0.92rem;
+  padding: 0.6rem 0.7rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+.contact-box textarea:focus, .contact-box input:focus { outline: none; border-color: var(--accent); }
+.contact-box button {
+  font-family: inherit; font-weight: 700; font-size: 0.9rem; padding: 0.6rem 1.4rem;
+  border: none; border-radius: 6px; background: var(--accent); color: #fff; cursor: pointer;
+}
+.contact-box button:disabled { opacity: 0.5; cursor: not-allowed; }
+.contact-status { font-size: 0.85rem; margin-top: 0.6rem; }
+.contact-status.ok { color: var(--accent); }
+.contact-status.err { color: #b91c1c; }
+
+footer.site-footer {
+  margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+  font-size: 0.78rem; color: var(--muted);
+}
+footer.site-footer p { margin: 0 0 0.5rem; }
+footer.site-footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <h1>フリマ手取りシミュレーター</h1>
+    <p class="lede">商品価格を入れれば、サイズ・重さから自動で選んだ最安の発送方法込みで「いくら手元に残るか」が分かります。逆に「〇円は手元に残したい」から出品価格を逆算することもできます。</p>
+    <span class="updated-note">手数料率・送料 最終確認日: 2026年8月28日</span>
+  </header>
+
+  <div class="notice-box">
+    ⚠️ 日本郵便は2026年10月1日に「ゆうパック」「ゆうパケット」の料金改定を予定しています（ゆうパックは平均約10%値上げ）。下記の送料は改定前のものです。10月以降に発送する場合は各社公式サイトでご確認ください。
+  </div>
+
+  <section>
+    <div class="mode-row" role="group" aria-label="計算モード">
+      <button type="button" id="forwardModeBtn" aria-pressed="true">価格 → 手取り</button>
+      <button type="button" id="reverseModeBtn" aria-pressed="false">手取り → 必要な価格</button>
+    </div>
+
+    <div class="field-row">
+      <div class="field" id="priceField">
+        <label for="price">商品価格（円）</label>
+        <input type="number" id="price" min="0" step="1" value="3000">
+      </div>
+      <div class="field" id="targetField" style="display:none">
+        <label for="target">手元に残したい金額（円）</label>
+        <input type="number" id="target" min="0" step="1" value="2000">
+      </div>
+      <div class="field">
+        <label for="rakumaTier">ラクマの手数料率（実績で変動・不明ならそのままでOK）</label>
+        <select id="rakumaTier">
+          <option value="0.10">10%（基本）</option>
+          <option value="0.09">9%（前月に月4回以上・5,000円以上販売）</option>
+          <option value="0.08">8%（前月に月6回以上・10,000円以上販売）</option>
+          <option value="0.07">7%（前月に月8回以上・30,000円以上販売）</option>
+          <option value="0.06">6%（前月に月10回以上・50,000円以上販売）</option>
+          <option value="0.045">4.5%（前月に月10回以上・100,000円以上販売）</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="sizeSum">3辺合計（cm）</label>
+        <input type="number" id="sizeSum" min="0" step="1" value="45">
+        <p class="field-hint">縦+横+高さの合計（送料は出品者負担の想定）</p>
+      </div>
+      <div class="field">
+        <label for="thickness">厚さ（cm）</label>
+        <input type="number" id="thickness" min="0" step="0.5" value="2">
+      </div>
+      <div class="field">
+        <label for="weight">重さ（kg）</label>
+        <input type="number" id="weight" min="0" step="0.1" value="0.5">
+      </div>
+    </div>
+
+    <div class="shipping-pick" id="shippingPick"></div>
+
+    <div style="overflow-x:auto">
+      <table class="compare">
+        <thead id="resultHead"></thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+    <p class="disclaimer" id="modeDisclaimer"></p>
+    <p class="disclaimer">手数料率・送料は変更されることがあります。出品前に必ず各サービス・配送会社の公式ページで最新の情報をご確認ください。発送方法は専用封筒/専用箱に収まるかなど目視確認が必要な場合があります。振込手数料は「一般的な条件」での目安です。</p>
+  </section>
+
+  <section class="contact-box">
+    <h2>ご意見・追加してほしい機能</h2>
+    <p class="lede" style="margin-bottom:0.9rem;">気づいたことや、あったら便利な機能があれば教えてください。</p>
+    <form id="contactForm">
+      <input type="email" id="contactEmail" placeholder="返信が必要な場合はメールアドレス（任意）">
+      <textarea id="contactMessage" placeholder="ご意見・ご要望をどうぞ" required></textarea>
+      <button type="submit" id="contactSubmit">送信する</button>
+      <p class="contact-status" id="contactStatus"></p>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <p>本サイトの手数料・送料情報は目安であり、正確性を保証するものではありません。実際の出品・発送前には必ず各サービス・配送会社の公式サイトで最新の情報をご確認ください。</p>
+    <p>あわせて使える：
+      <a href="https://webtools-labs.com/furima-hikaku-keisan/">フリマ手数料計算・比較ツール</a> ／
+      <a href="https://webtools-labs.com/furima-hasso-hikaku/">フリマ配送方法・送料比較ツール</a>
+    </p>
+    <p>当サイトは広告を掲載する場合があります。</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var RATES = {
+    mercari: { name: 'メルカリ', feeRate: 0.10, transferFee: 200 },
+    rakuma: { name: 'ラクマ', feeRate: 0.10, transferFee: 0 },
+    yahoo: { name: 'Yahoo!フリマ', feeRate: 0.05, transferFee: 0 }
+  };
+
+  var SHIP_OPTIONS = [
+    { key: 'yu-mini', name: 'ゆうパケットポストmini', gate: 'envelope', maxThickness: 2, maxWeight: 2, price: 180 },
+    { key: 'nekopos', name: 'ネコポス', gate: 'flat', maxThickness: 3, maxWeight: 1, price: 210 },
+    { key: 'yu-post', name: 'ゆうパケットポスト', gate: 'flat', maxThickness: 3, maxWeight: 2, price: 215 },
+    { key: 'yu-packet', name: 'ゆうパケット', gate: 'flat', maxThickness: 3, maxWeight: 1, price: 230 },
+    { key: 'compact', name: '宅急便コンパクト', gate: 'box', maxThickness: 5, maxWeight: 999, price: 520 },
+    { key: 'takkyu-60', name: '宅急便 60', gate: 'size', maxSize: 60, maxWeight: 2, price: 750 },
+    { key: 'yupack-60', name: 'ゆうパック 60', gate: 'size', maxSize: 60, maxWeight: 25, price: 750 },
+    { key: 'takkyu-80', name: '宅急便 80', gate: 'size', maxSize: 80, maxWeight: 5, price: 850 },
+    { key: 'yupack-80', name: 'ゆうパック 80', gate: 'size', maxSize: 80, maxWeight: 25, price: 850 },
+    { key: 'takkyu-100', name: '宅急便 100', gate: 'size', maxSize: 100, maxWeight: 10, price: 1050 },
+    { key: 'yupack-100', name: 'ゆうパック 100', gate: 'size', maxSize: 100, maxWeight: 25, price: 1050 },
+    { key: 'takkyu-120', name: '宅急便 120', gate: 'size', maxSize: 120, maxWeight: 15, price: 1200 },
+    { key: 'yupack-120', name: 'ゆうパック 120', gate: 'size', maxSize: 120, maxWeight: 25, price: 1200 },
+    { key: 'takkyu-140', name: '宅急便 140', gate: 'size', maxSize: 140, maxWeight: 20, price: 1450 },
+    { key: 'yupack-140', name: 'ゆうパック 140', gate: 'size', maxSize: 140, maxWeight: 25, price: 1450 },
+    { key: 'takkyu-160', name: '宅急便 160', gate: 'size', maxSize: 160, maxWeight: 25, price: 1700 },
+    { key: 'yupack-160', name: 'ゆうパック 160', gate: 'size', maxSize: 160, maxWeight: 25, price: 1700 }
+  ];
+
+  function evaluateOption(opt, size, thickness, weight) {
+    if (opt.gate === 'flat') {
+      if (thickness > opt.maxThickness) return { ok: false };
+      if (weight > opt.maxWeight) return { ok: false };
+      return { ok: true };
+    }
+    if (opt.gate === 'envelope' || opt.gate === 'box') {
+      if (thickness > opt.maxThickness) return { ok: false };
+      if (weight > opt.maxWeight) return { ok: false };
+      return { ok: true, uncertain: true };
+    }
+    if (opt.gate === 'size') {
+      if (size > opt.maxSize) return { ok: false };
+      if (weight > opt.maxWeight) return { ok: false };
+      return { ok: true };
+    }
+    return { ok: false };
+  }
+
+  function pickCheapestShipping(size, thickness, weight) {
+    var eligible = SHIP_OPTIONS
+      .map(function (opt) { return Object.assign({}, opt, evaluateOption(opt, size, thickness, weight)); })
+      .filter(function (e) { return e.ok; })
+      .sort(function (a, b) { return a.price - b.price; });
+    return eligible.length ? eligible[0] : null;
+  }
+
+  var priceInput = document.getElementById('price');
+  var targetInput = document.getElementById('target');
+  var priceField = document.getElementById('priceField');
+  var targetField = document.getElementById('targetField');
+  var rakumaTierSelect = document.getElementById('rakumaTier');
+  var sizeInput = document.getElementById('sizeSum');
+  var thicknessInput = document.getElementById('thickness');
+  var weightInput = document.getElementById('weight');
+  var shippingPick = document.getElementById('shippingPick');
+  var resultHead = document.getElementById('resultHead');
+  var resultBody = document.getElementById('resultBody');
+  var modeDisclaimer = document.getElementById('modeDisclaimer');
+  var forwardModeBtn = document.getElementById('forwardModeBtn');
+  var reverseModeBtn = document.getElementById('reverseModeBtn');
+  var mode = 'forward';
+
+  function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
+
+  function render() {
+    var size = Math.max(0, Number(sizeInput.value) || 0);
+    var thickness = Math.max(0, Number(thicknessInput.value) || 0);
+    var weight = Math.max(0, Number(weightInput.value) || 0);
+    RATES.rakuma.feeRate = Number(rakumaTierSelect.value);
+
+    var shipping = pickCheapestShipping(size, thickness, weight);
+    var shippingCost = shipping ? shipping.price : 0;
+
+    if (!shipping) {
+      shippingPick.className = 'shipping-pick warn';
+      shippingPick.innerHTML = 'このサイズ・重さに対応する発送方法が見つかりませんでした（3辺合計160cm/25kgが上限の目安です）。送料は仮に0円として計算しています。';
+    } else {
+      shippingPick.className = 'shipping-pick';
+      shippingPick.innerHTML = '自動選択した最安の発送方法: <strong>' + shipping.name + '（' + yen(shipping.price) + '）</strong>' +
+        (shipping.uncertain ? ' ※専用封筒・専用箱に収まるか要確認' : '') +
+        '。他の配送方法も見たい場合は<a href="https://webtools-labs.com/furima-hasso-hikaku/">配送方法比較ツール</a>へ。';
+    }
+
+    var keys = ['mercari', 'rakuma', 'yahoo'];
+
+    if (mode === 'forward') {
+      var price = Math.max(0, Number(priceInput.value) || 0);
+      resultHead.innerHTML = '<tr><th>サービス</th><th class="num">手数料</th><th class="num">振込手数料</th><th class="num">送料</th><th class="num">手取り</th></tr>';
+      var rows = keys.map(function (key) {
+        var r = RATES[key];
+        var fee = Math.round(price * r.feeRate);
+        var net = price - fee - shippingCost - r.transferFee;
+        return { name: r.name, fee: fee, transferFee: r.transferFee, net: net };
+      });
+      var bestNet = Math.max.apply(null, rows.map(function (r) { return r.net; }));
+      resultBody.innerHTML = rows.map(function (r) {
+        var isBest = r.net === bestNet;
+        return '<tr class="' + (isBest ? 'best' : '') + '">' +
+          '<td>' + r.name + (isBest ? '<span class="best-tag">最も手取りが多い</span>' : '') + '</td>' +
+          '<td class="num">-' + yen(r.fee) + '</td>' +
+          '<td class="num">-' + yen(r.transferFee) + '</td>' +
+          '<td class="num">-' + yen(shippingCost) + '</td>' +
+          '<td class="num">' + yen(r.net) + '</td>' +
+          '</tr>';
+      }).join('');
+      modeDisclaimer.textContent = '「価格 → 手取り」モード：入力した商品価格で出品した場合に、実際に手元に残る金額の目安です。';
+    } else {
+      var target = Math.max(0, Number(targetInput.value) || 0);
+      resultHead.innerHTML = '<tr><th>サービス</th><th class="num">必要な出品価格</th><th class="num">内訳（手数料+送料+振込手数料）</th></tr>';
+      var rrows = keys.map(function (key) {
+        var r = RATES[key];
+        var needed = (target + shippingCost + r.transferFee) / (1 - r.feeRate);
+        needed = Math.ceil(needed);
+        var costs = needed - target;
+        return { name: r.name, needed: needed, costs: costs };
+      });
+      var bestPrice = Math.min.apply(null, rrows.map(function (r) { return r.needed; }));
+      resultBody.innerHTML = rrows.map(function (r) {
+        var isBest = r.needed === bestPrice;
+        return '<tr class="' + (isBest ? 'best' : '') + '">' +
+          '<td>' + r.name + (isBest ? '<span class="best-tag">一番安く出品できる</span>' : '') + '</td>' +
+          '<td class="num">' + yen(r.needed) + '</td>' +
+          '<td class="num">' + yen(r.costs) + '</td>' +
+          '</tr>';
+      }).join('');
+      modeDisclaimer.textContent = '「手取り → 必要な価格」モード：入力した金額を手元に残すために必要な出品価格の目安です。きりの良い価格に切り上げて出品するのがおすすめです。';
+    }
+  }
+
+  [priceInput, targetInput, rakumaTierSelect, sizeInput, thicknessInput, weightInput].forEach(function (el) {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  forwardModeBtn.addEventListener('click', function () {
+    mode = 'forward';
+    forwardModeBtn.setAttribute('aria-pressed', 'true');
+    reverseModeBtn.setAttribute('aria-pressed', 'false');
+    priceField.style.display = '';
+    targetField.style.display = 'none';
+    render();
+  });
+  reverseModeBtn.addEventListener('click', function () {
+    mode = 'reverse';
+    reverseModeBtn.setAttribute('aria-pressed', 'true');
+    forwardModeBtn.setAttribute('aria-pressed', 'false');
+    priceField.style.display = 'none';
+    targetField.style.display = '';
+    render();
+  });
+
+  render();
+
+  var WEB3FORMS_ACCESS_KEY = '4551c9fd-4327-4bd4-97e0-8b93d85fd077';
+  var contactForm = document.getElementById('contactForm');
+  var contactStatus = document.getElementById('contactStatus');
+  var contactSubmit = document.getElementById('contactSubmit');
+
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    contactSubmit.disabled = true;
+    contactStatus.textContent = '送信中...';
+    contactStatus.className = 'contact-status';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: 'フリマ手取りシミュレーターへのお問い合わせ',
+        email: document.getElementById('contactEmail').value || 'noreply@example.com',
+        message: document.getElementById('contactMessage').value
+      })
+    }).then(function (res) { return res.json(); }).then(function (data) {
+      contactSubmit.disabled = false;
+      if (data.success) {
+        contactStatus.textContent = '送信しました。ありがとうございます！';
+        contactStatus.className = 'contact-status ok';
+        contactForm.reset();
+      } else {
+        contactStatus.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+        contactStatus.className = 'contact-status err';
+      }
+    }).catch(function () {
+      contactSubmit.disabled = false;
+      contactStatus.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+      contactStatus.className = 'contact-status err';
+    });
+  });
+})();
+</script>
+</body>
+</html>
