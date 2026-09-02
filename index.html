@@ -117,13 +117,16 @@ tr.best td:first-child { font-weight: 700; }
 
 .disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
 
+.share-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.1rem; }
 .share-btn {
-  display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.1rem;
-  padding: 0.55rem 1.1rem; border-radius: 999px; background: #000; color: #fff;
-  text-decoration: none; font-size: 0.85rem; font-weight: 700;
+  display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 999px;
+  color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 700;
 }
 .share-btn:hover { opacity: 0.85; }
-.share-btn svg { width: 14px; height: 14px; fill: #fff; }
+.share-x { background: #000; }
+.share-line { background: #06c755; }
+.share-fb { background: #1877f2; }
+.share-hatena { background: #00a4de; }
 
 .ad-slot { margin: 2.5rem 0; text-align: center; min-height: 100px; }
 
@@ -221,10 +224,12 @@ footer.site-footer a { color: var(--accent); }
     </div>
     <p class="disclaimer" id="modeDisclaimer"></p>
     <p class="disclaimer">手数料率・送料は変更されることがあります。出品前に必ず各サービス・配送会社の公式ページで最新の情報をご確認ください。発送方法は専用封筒/専用箱に収まるかなど目視確認が必要な場合があります。振込手数料は「一般的な条件」での目安です。</p>
-    <a class="share-btn" id="shareBtn" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      結果をシェア
-    </a>
+    <div class="share-row" id="shareRow">
+      <a class="share-btn share-x" id="shareX" href="#" target="_blank" rel="noopener">𝕏でシェア</a>
+      <a class="share-btn share-line" id="shareLine" href="#" target="_blank" rel="noopener">LINEで送る</a>
+      <a class="share-btn share-fb" id="shareFb" href="#" target="_blank" rel="noopener">Facebookでシェア</a>
+      <a class="share-btn share-hatena" id="shareHatena" href="#" target="_blank" rel="noopener">はてブする</a>
+    </div>
   </section>
 
   <div class="ad-slot">
@@ -331,10 +336,21 @@ footer.site-footer a { color: var(--accent); }
   var modeDisclaimer = document.getElementById('modeDisclaimer');
   var forwardModeBtn = document.getElementById('forwardModeBtn');
   var reverseModeBtn = document.getElementById('reverseModeBtn');
-  var shareBtn = document.getElementById('shareBtn');
+  var shareRow = document.getElementById('shareRow');
+  var shareX = document.getElementById('shareX');
+  var shareLine = document.getElementById('shareLine');
+  var shareFb = document.getElementById('shareFb');
+  var shareHatena = document.getElementById('shareHatena');
   var mode = 'forward';
 
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
+
+  function setShareLinks(text, url) {
+    shareX.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
+    shareLine.href = 'https://line.me/R/msg/text/?' + encodeURIComponent(text + '\n' + url);
+    shareFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(text);
+    shareHatena.href = 'https://b.hatena.ne.jp/entry/panel/?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(text);
+  }
 
   function render() {
     var size = Math.max(0, Number(sizeInput.value) || 0);
@@ -383,7 +399,7 @@ footer.site-footer a { color: var(--accent); }
       var shareTextF = price.toLocaleString('ja-JP') + '円の商品、手数料+送料引いた手取りを比較したら\n' +
         '一番お得だったのは' + bestRowF.name + 'で ' + yen(bestRowF.net) + '\n\n' +
         'フリマ手取りシミュレーター';
-      shareBtn.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareTextF) + '&url=' + encodeURIComponent('https://webtools-labs.com/furima-tedori-simulator/');
+      setShareLinks(shareTextF, 'https://webtools-labs.com/furima-tedori-simulator/');
     } else {
       var target = Math.max(0, Number(targetInput.value) || 0);
       resultHead.innerHTML = '<tr><th>サービス</th><th class="num">必要な出品価格</th><th class="num">内訳（手数料+送料+振込手数料）</th></tr>';
@@ -409,7 +425,7 @@ footer.site-footer a { color: var(--accent); }
       var shareTextR = target.toLocaleString('ja-JP') + '円手元に残したい場合、必要な出品価格を計算したら\n' +
         '一番安く出せるのは' + bestRowR.name + 'で ' + yen(bestRowR.needed) + '\n\n' +
         'フリマ手取りシミュレーター';
-      shareBtn.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareTextR) + '&url=' + encodeURIComponent('https://webtools-labs.com/furima-tedori-simulator/');
+      setShareLinks(shareTextR, 'https://webtools-labs.com/furima-tedori-simulator/');
     }
   }
 
