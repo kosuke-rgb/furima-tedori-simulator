@@ -117,6 +117,14 @@ tr.best td:first-child { font-weight: 700; }
 
 .disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
 
+.share-btn {
+  display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.1rem;
+  padding: 0.55rem 1.1rem; border-radius: 999px; background: #000; color: #fff;
+  text-decoration: none; font-size: 0.85rem; font-weight: 700;
+}
+.share-btn:hover { opacity: 0.85; }
+.share-btn svg { width: 14px; height: 14px; fill: #fff; }
+
 .ad-slot { margin: 2.5rem 0; text-align: center; min-height: 100px; }
 
 .contact-box textarea {
@@ -213,6 +221,10 @@ footer.site-footer a { color: var(--accent); }
     </div>
     <p class="disclaimer" id="modeDisclaimer"></p>
     <p class="disclaimer">手数料率・送料は変更されることがあります。出品前に必ず各サービス・配送会社の公式ページで最新の情報をご確認ください。発送方法は専用封筒/専用箱に収まるかなど目視確認が必要な場合があります。振込手数料は「一般的な条件」での目安です。</p>
+    <a class="share-btn" id="shareBtn" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      結果をシェア
+    </a>
   </section>
 
   <div class="ad-slot">
@@ -319,6 +331,7 @@ footer.site-footer a { color: var(--accent); }
   var modeDisclaimer = document.getElementById('modeDisclaimer');
   var forwardModeBtn = document.getElementById('forwardModeBtn');
   var reverseModeBtn = document.getElementById('reverseModeBtn');
+  var shareBtn = document.getElementById('shareBtn');
   var mode = 'forward';
 
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
@@ -365,6 +378,12 @@ footer.site-footer a { color: var(--accent); }
           '</tr>';
       }).join('');
       modeDisclaimer.textContent = '「価格 → 手取り」モード：入力した商品価格で出品した場合に、実際に手元に残る金額の目安です。';
+
+      var bestRowF = rows.filter(function (r) { return r.net === bestNet; })[0];
+      var shareTextF = price.toLocaleString('ja-JP') + '円の商品、手数料+送料引いた手取りを比較したら\n' +
+        '一番お得だったのは' + bestRowF.name + 'で ' + yen(bestRowF.net) + '\n\n' +
+        'フリマ手取りシミュレーター';
+      shareBtn.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareTextF) + '&url=' + encodeURIComponent('https://webtools-labs.com/furima-tedori-simulator/');
     } else {
       var target = Math.max(0, Number(targetInput.value) || 0);
       resultHead.innerHTML = '<tr><th>サービス</th><th class="num">必要な出品価格</th><th class="num">内訳（手数料+送料+振込手数料）</th></tr>';
@@ -385,6 +404,12 @@ footer.site-footer a { color: var(--accent); }
           '</tr>';
       }).join('');
       modeDisclaimer.textContent = '「手取り → 必要な価格」モード：入力した金額を手元に残すために必要な出品価格の目安です。きりの良い価格に切り上げて出品するのがおすすめです。';
+
+      var bestRowR = rrows.filter(function (r) { return r.needed === bestPrice; })[0];
+      var shareTextR = target.toLocaleString('ja-JP') + '円手元に残したい場合、必要な出品価格を計算したら\n' +
+        '一番安く出せるのは' + bestRowR.name + 'で ' + yen(bestRowR.needed) + '\n\n' +
+        'フリマ手取りシミュレーター';
+      shareBtn.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareTextR) + '&url=' + encodeURIComponent('https://webtools-labs.com/furima-tedori-simulator/');
     }
   }
 
