@@ -39,6 +39,29 @@
   "inLanguage": "ja"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "出品価格からいくら手元に残るか計算できますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "はい。出品価格・アプリ・荷物のサイズと重さを入力すると、販売手数料と最も安い発送方法の送料を自動で差し引き、実際に手元に残る手取り額を計算します。" }
+    },
+    {
+      "@type": "Question",
+      "name": "「いくらで出品すればいいか」を逆算できますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "はい。目標の手取り額を入力すると、手数料と送料を考慮したうえで、その手取りを実現するために必要な出品価格を逆算できます。「最低でも◯◯円は手元に残したい」という場合の値付けの目安として使えます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "発送方法は自分で選ぶ必要がありますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "いいえ、入力したサイズ・重さの条件に合う発送方法の中から、自動的に最も安いものが選ばれて計算に使われます。手動で発送方法を比較する手間を省き、販売手数料と送料をまとめて最安の組み合わせで確認できます。" }
+    }
+  ]
+}
+</script>
 <style>
 :root {
   --bg: #ffffff;
@@ -156,6 +179,19 @@ footer.site-footer {
 }
 footer.site-footer p { margin: 0 0 0.5rem; }
 footer.site-footer a { color: var(--accent); }
+
+.faq-item { border-bottom: 1px solid var(--line); padding: 0.9rem 0; }
+.faq-item:last-child { border-bottom: none; }
+.faq-item summary {
+  cursor: pointer; font-weight: 700; font-size: 0.92rem; list-style: none;
+  position: relative; padding-right: 1.6rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+'; position: absolute; right: 0; top: 0; color: var(--accent); font-weight: 700; font-size: 1.1rem;
+}
+.faq-item[open] summary::after { content: '−'; }
+.faq-item p { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.88rem; }
 </style>
 </head>
 <body>
@@ -241,6 +277,22 @@ footer.site-footer a { color: var(--accent); }
       data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <section>
+    <h2>よくある質問</h2>
+    <details class="faq-item">
+      <summary>出品価格からいくら手元に残るか計算できますか？</summary>
+      <p>はい。出品価格・アプリ・荷物のサイズと重さを入力すると、販売手数料と最も安い発送方法の送料を自動で差し引き、実際に手元に残る手取り額を計算します。</p>
+    </details>
+    <details class="faq-item">
+      <summary>「いくらで出品すればいいか」を逆算できますか？</summary>
+      <p>はい。目標の手取り額を入力すると、手数料と送料を考慮したうえで、その手取りを実現するために必要な出品価格を逆算できます。「最低でも◯◯円は手元に残したい」という場合の値付けの目安として使えます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>発送方法は自分で選ぶ必要がありますか？</summary>
+      <p>いいえ、入力したサイズ・重さの条件に合う発送方法の中から、自動的に最も安いものが選ばれて計算に使われます。手動で発送方法を比較する手間を省き、販売手数料と送料をまとめて最安の組み合わせで確認できます。</p>
+    </details>
+  </section>
 
   <section class="contact-box">
     <h2>ご意見・追加してほしい機能</h2>
