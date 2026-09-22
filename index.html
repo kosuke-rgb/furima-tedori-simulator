@@ -73,6 +73,16 @@
       "@type": "Question",
       "name": "発送方法は自分で選ぶ必要がありますか？",
       "acceptedAnswer": { "@type": "Answer", "text": "いいえ、入力したサイズ・重さの条件に合う発送方法の中から、自動的に最も安いものが選ばれて計算に使われます。手動で発送方法を比較する手間を省き、販売手数料と送料をまとめて最安の組み合わせで確認できます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "逆算した出品価格は、そのまま端数まで設定すべきですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "本ツールが逆算する金額は「最低限これだけ必要」という下限値のため、実際に出品する際はキリの良い価格(100円単位など)に切り上げるのが一般的です。端数のまま出品すると、購入者から見て値下げ交渉の余地があるように見えてしまうこともあります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "複数の商品をまとめて1つの荷物として発送すると得をしますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "同梱発送の場合、送料は1回分で済む一方、販売手数料は各商品の価格に対してそれぞれかかるのが一般的です。1点ずつ送るより送料の負担割合が小さくなるため、まとめ売り・同梱発送は送料コストを抑えたい場合に有効な手段です。" }
     }
   ]
 }
@@ -152,6 +162,12 @@ table.compare td.num, table.compare th.num { font-variant-numeric: tabular-nums;
 tr.best { background: var(--best-bg); }
 tr.best td:first-child { font-weight: 700; }
 .best-tag { display: inline-block; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); padding: 0.05rem 0.4rem; border-radius: 4px; margin-left: 0.4rem; font-weight: 500; }
+
+.ref-table { overflow-x: auto; }
+.ref-table table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 460px; }
+.ref-table th, .ref-table td { padding: 0.5rem 0.5rem; border-bottom: 1px solid var(--line); text-align: left; }
+.ref-table td.num { font-variant-numeric: tabular-nums; text-align: right; }
+.ref-table tr.best td { font-weight: 700; background: var(--best-bg); }
 
 .disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
 
@@ -239,6 +255,12 @@ footer.site-footer a { color: var(--accent); }
   </div>
 
   <section>
+    <h2>手数料と送料、まとめて考える理由</h2>
+    <p>フリマの利益を正確に把握するには、販売手数料だけでなく送料も同時に考える必要があります。手数料計算・送料比較をそれぞれ別のツールで確認すると、荷物のサイズに合う配送方法を先に決めてから手数料アプリを比較する、という2度手間になりがちです。</p>
+    <p>本ツールは、サイズ・重さから自動で最安の発送方法を選んだうえで、3つのフリマアプリの手数料とあわせて手取りを一括計算します。また「いくらで出品すればいいか分からない」というケースに対応するため、目標の手取り額から必要な出品価格を逆算するモードも用意しています。</p>
+  </section>
+
+  <section>
     <div class="mode-row" role="group" aria-label="計算モード">
       <button type="button" id="forwardModeBtn" aria-pressed="true">価格 → 手取り</button>
       <button type="button" id="reverseModeBtn" aria-pressed="false">手取り → 必要な価格</button>
@@ -300,6 +322,22 @@ footer.site-footer a { color: var(--accent); }
     </div>
   </section>
 
+  <section>
+    <h2>計算例: 3,000円の商品・3辺合計45cm・厚さ2cm・重さ0.5kgの場合</h2>
+    <p>デフォルトで入力されている条件(価格→手取りモード)で計算してみます。自動選択される最安の発送方法はゆうパケットポストmini(180円)です。</p>
+    <div class="ref-table">
+      <table>
+        <thead><tr><th>サービス</th><th class="num">手数料</th><th class="num">送料</th><th class="num">手取り</th></tr></thead>
+        <tbody>
+          <tr><td>メルカリ(10%・振込手数料200円)</td><td class="num">▲300円</td><td class="num">▲180円</td><td class="num">2,320円</td></tr>
+          <tr><td>ラクマ(基本10%)</td><td class="num">▲300円</td><td class="num">▲180円</td><td class="num">2,520円</td></tr>
+          <tr class="best"><td>Yahoo!フリマ(5%) 最も手取りが多い</td><td class="num">▲150円</td><td class="num">▲180円</td><td class="num">2,670円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disclaimer">同じ3,000円の商品でも、手数料の低いYahoo!フリマとメルカリとでは手取りに350円の差が出ます。「手取り→必要な価格」モードに切り替えれば、逆に「2,670円を確実に残したい」場合の各社の必要出品価格も確認できます。</p>
+  </section>
+
   <div class="ad-slot">
     <ins class="adsbygoogle"
       style="display:block"
@@ -332,6 +370,14 @@ footer.site-footer a { color: var(--accent); }
     <details class="faq-item">
       <summary>発送方法は自分で選ぶ必要がありますか？</summary>
       <p>いいえ、入力したサイズ・重さの条件に合う発送方法の中から、自動的に最も安いものが選ばれて計算に使われます。手動で発送方法を比較する手間を省き、販売手数料と送料をまとめて最安の組み合わせで確認できます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>逆算した出品価格は、そのまま端数まで設定すべきですか？</summary>
+      <p>本ツールが逆算する金額は「最低限これだけ必要」という下限値のため、実際に出品する際はキリの良い価格（100円単位など）に切り上げるのが一般的です。端数のまま出品すると、購入者から見て値下げ交渉の余地があるように見えてしまうこともあります。</p>
+    </details>
+    <details class="faq-item">
+      <summary>複数の商品をまとめて1つの荷物として発送すると得をしますか？</summary>
+      <p>同梱発送の場合、送料は1回分で済む一方、販売手数料は各商品の価格に対してそれぞれかかるのが一般的です。1点ずつ送るより送料の負担割合が小さくなるため、まとめ売り・同梱発送は送料コストを抑えたい場合に有効な手段です。</p>
     </details>
   </section>
 
