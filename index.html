@@ -247,11 +247,11 @@ footer.site-footer a { color: var(--accent); }
   <header class="masthead">
     <h1>フリマ手取りシミュレーター</h1>
     <p class="lede">商品価格を入れれば、サイズ・重さから自動で選んだ最安の発送方法込みで「いくら手元に残るか」が分かります。逆に「〇円は手元に残したい」から出品価格を逆算することもできます。</p>
-    <span class="updated-note">手数料率・送料 最終確認日: 2026年8月28日</span>
+    <span class="updated-note">手数料率・送料 最終確認日: 2026年9月27日（日本郵便公式プレスリリースにもとづく、2026年10月1日改定後の料金に対応済み）</span>
   </header>
 
   <div class="notice-box">
-    ⚠️ 日本郵便は2026年10月1日に「ゆうパック」「ゆうパケット」の料金改定を予定しています（ゆうパックは平均約10%値上げ）。下記の送料は改定前のものです。10月以降に発送する場合は各社公式サイトでご確認ください。
+    ⚠️ 2026年10月1日、日本郵便の「ゆうパック」「ゆうパケット」の料金が改定されました（本ツールは改定後の新料金に対応済みです）。フリマアプリ経由（ゆうゆうメルカリ便等）の個別契約料金は、本稿執筆時点でアプリ側から別途の改定発表はありませんが、発送前にアプリ内の表示金額もあわせてご確認ください。
   </div>
 
   <section>
@@ -435,20 +435,20 @@ footer.site-footer a { color: var(--accent); }
     { key: 'yu-mini', name: 'ゆうパケットポストmini', gate: 'envelope', maxThickness: 2, maxWeight: 2, price: 180 },
     { key: 'nekopos', name: 'ネコポス', gate: 'flat', maxThickness: 3, maxWeight: 1, price: 210 },
     { key: 'yu-post', name: 'ゆうパケットポスト', gate: 'flat', maxThickness: 3, maxWeight: 2, price: 215 },
-    { key: 'yu-packet', name: 'ゆうパケット', gate: 'flat', maxThickness: 3, maxWeight: 1, price: 230 },
+    { key: 'yu-packet', name: 'ゆうパケット', gate: 'flat', maxThickness: 3, maxWeight: 1, price: 360 },
     { key: 'compact', name: '宅急便コンパクト', gate: 'box', maxThickness: 5, maxWeight: 999, price: 520 },
     { key: 'takkyu-60', name: '宅急便 60', gate: 'size', maxSize: 60, maxWeight: 2, price: 750 },
-    { key: 'yupack-60', name: 'ゆうパック 60', gate: 'size', maxSize: 60, maxWeight: 25, price: 750 },
+    { key: 'yupack-60', name: 'ゆうパック 60', gate: 'size', maxSize: 60, maxWeight: 25, price: 840 },
     { key: 'takkyu-80', name: '宅急便 80', gate: 'size', maxSize: 80, maxWeight: 5, price: 850 },
-    { key: 'yupack-80', name: 'ゆうパック 80', gate: 'size', maxSize: 80, maxWeight: 25, price: 850 },
+    { key: 'yupack-80', name: 'ゆうパック 80', gate: 'size', maxSize: 80, maxWeight: 25, price: 1150 },
     { key: 'takkyu-100', name: '宅急便 100', gate: 'size', maxSize: 100, maxWeight: 10, price: 1050 },
-    { key: 'yupack-100', name: 'ゆうパック 100', gate: 'size', maxSize: 100, maxWeight: 25, price: 1050 },
+    { key: 'yupack-100', name: 'ゆうパック 100', gate: 'size', maxSize: 100, maxWeight: 25, price: 1480 },
     { key: 'takkyu-120', name: '宅急便 120', gate: 'size', maxSize: 120, maxWeight: 15, price: 1200 },
-    { key: 'yupack-120', name: 'ゆうパック 120', gate: 'size', maxSize: 120, maxWeight: 25, price: 1200 },
+    { key: 'yupack-120', name: 'ゆうパック 120', gate: 'size', maxSize: 120, maxWeight: 25, price: 1810 },
     { key: 'takkyu-140', name: '宅急便 140', gate: 'size', maxSize: 140, maxWeight: 20, price: 1450 },
-    { key: 'yupack-140', name: 'ゆうパック 140', gate: 'size', maxSize: 140, maxWeight: 25, price: 1450 },
+    { key: 'yupack-140', name: 'ゆうパック 140', gate: 'size', maxSize: 140, maxWeight: 25, price: 2160 },
     { key: 'takkyu-160', name: '宅急便 160', gate: 'size', maxSize: 160, maxWeight: 25, price: 1700 },
-    { key: 'yupack-160', name: 'ゆうパック 160', gate: 'size', maxSize: 160, maxWeight: 25, price: 1700 }
+    { key: 'yupack-160', name: 'ゆうパック 160', gate: 'size', maxSize: 160, maxWeight: 25, price: 2500 }
   ];
 
   function evaluateOption(opt, size, thickness, weight) {
